@@ -1,0 +1,77 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700");
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", sans-serif;
+  text-decoration: none;
+  outline: none;
+  border: none;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+nav {
+  background-color: #ff86b5;
+  color: white;
+  font-weight: 600;
+  padding-top: 10px;
+}
+
+nav p {
+  padding-bottom: 10px;
+  margin-left: 70px;
+  font-size: 1.2rem;
+}
+
+.food-card {
+  border: none !important;
+  background-clip: padding-box;
+  border-radius: 10px;
+  box-shadow: 0px 0px 41px -12px rgba(0, 0, 0, 0.36);
+  -webkit-box-shadow: 0px 0px 41px -12px rgba(0, 0, 0, 0.36);
+  -moz-box-shadow: 0px 0px 41px -12px rgba(0, 0, 0, 0.36);
+}
+
+.food-card .img-top {
+  width: 22rem;
+  border-radius: 10px 10px 0 0;
+  background: white;
+  opacity: 0.9;
+}
+
+.food-card .title {
+  font-size: 1.4em;
+  text-align: center;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 20px;
+  font-weight: 700;
+  color: #685b57;
+}
+
+.food-card .border {
+  border: #efbbcf 1px solid !important;
+  position: relative;
+  margin: 0 auto 15px auto;
+  width: 64px;
+}
+
+.food-card .more-btn {
+  border-radius: 0 0 10px 10px;
+  background-color: #8675a9;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1em;
+  padding: 5px 5px;
+}
+
+.food-card .more-btn:hover {
+  background-color: #c3aed6;
+  -webkit-transition: 500ms;
+  transition: 500ms;
+  cursor: pointer;
+  text-decoration: underline;
+}
+/*# sourceMappingURL=styles.css.map */
