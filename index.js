@@ -3,8 +3,6 @@ const foodTitle = document.getElementById("food-title");
 const badge = document.getElementById("badge");
 const row = document.getElementById("row");
 
-let userName;
-
 fetch("https://jsonplaceholder.typicode.com/users/1")
   .then((response) => response.json())
   .then((json) => {
