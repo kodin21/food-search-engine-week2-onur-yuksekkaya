@@ -10,5 +10,8 @@
   },
   "devDependencies": {
     "parcel-bundler": "^1.12.5"
+  },
+  "dependencies": {
+    "fuse.js": "^6.4.6"
   }
 }
