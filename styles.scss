@@ -5,7 +5,6 @@ $font: "Open Sans", sans-serif;
   padding: 0;
   font-family: $font;
   text-decoration: none;
-  outline: none;
   border: none;
 
   -webkit-box-sizing: border-box;
@@ -33,14 +32,20 @@ nav {
   }
 }
 
+.food-card-focus {
+  border: 3px solid red !important;
+}
+
 .food-card {
   width: 22rem !important;
-  border: none !important;
   background-clip: padding-box;
-  border-radius: 10px;
+  border-radius: 15px;
   box-shadow: 0px 0px 41px -12px rgba(0, 0, 0, 0.36);
   -webkit-box-shadow: 0px 0px 41px -12px rgba(0, 0, 0, 0.36);
   -moz-box-shadow: 0px 0px 41px -12px rgba(0, 0, 0, 0.36);
+  &:focus {
+    outline: 1px solid blue;
+  }
   .img-top {
     width: 22rem;
     border-radius: 10px 10px 0 0;
