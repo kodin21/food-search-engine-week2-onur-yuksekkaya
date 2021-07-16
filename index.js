@@ -37,10 +37,7 @@ const loadData = () => {
       });
 
       //removing spinner to after load data
-
-      row.classList.remove("spinner-border");
-
-      input.addEventListener("input", (event) => {
+      let inputHandler = debounce(function () {
         // deleted old values
         row.innerHTML = "";
 
@@ -54,8 +51,23 @@ const loadData = () => {
         results.map(({ item }) => {
           row.appendChild(Card(item));
         });
-      });
+      }, 800);
+
+      input.addEventListener("input", inputHandler);
+
+      row.classList.remove("spinner-border");
     });
+};
+// deponce settings
+const debounce = (func, wait) => {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      timeout = null;
+      func(...args);
+    };
+    timeout = setTimeout(later, wait);
+  };
 };
 
 const checkFavorite = (mealId) => {
