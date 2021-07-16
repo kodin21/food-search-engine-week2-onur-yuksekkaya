@@ -185,21 +185,19 @@ const Card = ({
   foodCard.addEventListener("click", function () {
     // Focus on the exact box
     foodCard.focus();
-    console.log("You've cliked to : ", this.id);
   });
 
   // Key Events
   foodCard.addEventListener("keyup", (event) => {
-    console.log("You've pressed : ", event.key);
-  });
-  // When we click outside of a <div>
-  foodCard.addEventListener("focusout", (event) => {
-    console.log("You've focused out of : " + event.target.id);
+    let clickedKey = event.key;
+    if (clickedKey === "f") {
+      favoriteButton.style.color = "#ff86b5";
+      saveToLocalFavorited(foodCard.id.substr(5));
+    }
   });
 
   favoriteButton.addEventListener("click", (event) => {
-    favoriteButton.style.color = "pink";
-    console.log(foodCard.id.substr(5));
+    favoriteButton.style.color = "#ff86b5";
     saveToLocalFavorited(foodCard.id.substr(5));
   });
 
