@@ -4,7 +4,7 @@ import Fuse from "fuse.js";
 const loginInfo = document.getElementById("login-info");
 const row = document.getElementById("row");
 const input = document.getElementById("input");
-
+const wannaEat = document.getElementById("wanna-eat");
 let tabIndex = 1;
 
 fetch("https://jsonplaceholder.typicode.com/users/1")
@@ -13,7 +13,7 @@ fetch("https://jsonplaceholder.typicode.com/users/1")
     loginInfo.innerHTML = `${json.username}`;
   });
 
-const loadData = (results) => {
+const loadData = () => {
   // adding spinner to before load data
   row.classList.add("spinner-border");
   fetch("https://api.jsonbin.io/v3/b/60ef40fdc1256a01cb6f37ad", {
@@ -33,7 +33,7 @@ const loadData = (results) => {
       console.log(data);
 
       const fuse = new Fuse(data.record, {
-        keys: ["strMeal"],
+        keys: ["strMeal", "strArea", "strCategory"],
       });
 
       //removing spinner to after load data
@@ -43,6 +43,13 @@ const loadData = (results) => {
       input.addEventListener("input", (event) => {
         // deleted old values
         row.innerHTML = "";
+
+        // setting search text
+        let searchValue = input.value;
+        wannaEat.innerHTML = `Do you wanna eat <span>${input.value}</span> ? 👌🤤`;
+        if (searchValue === "")
+          wannaEat.innerHTML = `Are you having trouble with making a decision ? 🤔`;
+
         const results = fuse.search(input.value);
         results.map(({ item }) => {
           row.appendChild(Card(item));
@@ -104,12 +111,22 @@ const saveToLocalFavorited = (mealId) => {
   }
 };
 
-const Card = ({ idMeal, strMeal, strMealThumb, strYoutube }) => {
-  let foodCard = document.createElement("div");
-  let foodTitle = document.createElement("div");
-  let imageThumb = document.createElement("img");
-  let youtube = document.createElement("div");
-  let favoriteButton = document.createElement("i");
+const Card = ({
+  idMeal,
+  strMeal,
+  strMealThumb,
+  strYoutube,
+  strCategory,
+  strArea,
+}) => {
+  const foodCard = document.createElement("div");
+  const foodTitle = document.createElement("div");
+  const imageThumb = document.createElement("img");
+  const youtube = document.createElement("div");
+  const favoriteButton = document.createElement("i");
+  const BadgeParent = document.createElement("div");
+  const category = document.createElement("span");
+  const area = document.createElement("span");
 
   //Card Container
   foodCard.classList.add(
@@ -122,15 +139,23 @@ const Card = ({ idMeal, strMeal, strMealThumb, strYoutube }) => {
   foodCard.setAttribute("tabIndex", tabIndex);
   tabIndex++;
   foodCard.setAttribute("id", `card-${idMeal}`);
-  // Card title
-  foodTitle.classList.add("title");
-  foodTitle.innerHTML = strMeal;
   // Card image
   imageThumb.classList.add("img-top");
   imageThumb.src = strMealThumb;
-  // Card favorite image
-  favoriteButton.classList.add("far", "fa-2x", "fa-heart", "mt-2");
+  // Card favorite button
+  favoriteButton.classList.add("fas", "fa-2x", "fa-heart", "mt-2");
   favoriteButton.setAttribute("id", `fav-${idMeal}`);
+  // Card title
+  foodTitle.classList.add("title");
+  foodTitle.innerHTML = strMeal;
+  // badge parent
+  BadgeParent.classList.add("d-flex", "justify-content-between", "mb-3");
+  // category badge
+  category.classList.add("badge", "rounded-pill", "bg-success");
+  category.innerHTML = strCategory;
+  //are badge
+  area.classList.add("badge", "rounded-pill", "bg-dark");
+  area.innerHTML = strArea;
   // Card youtube link
   youtube.classList.add("more-btn");
   youtube.innerHTML =
@@ -139,6 +164,9 @@ const Card = ({ idMeal, strMeal, strMealThumb, strYoutube }) => {
   foodCard.appendChild(imageThumb);
   foodCard.appendChild(favoriteButton);
   foodCard.appendChild(foodTitle);
+  foodCard.appendChild(BadgeParent);
+  BadgeParent.appendChild(category);
+  BadgeParent.appendChild(area);
   foodCard.appendChild(youtube);
 
   // Click Events
