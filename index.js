@@ -1,11 +1,11 @@
 "use stricts";
 import Fuse from "fuse.js";
+import Card from "./component/card.js";
 
 const loginInfo = document.getElementById("login-info");
 const row = document.getElementById("row");
 const input = document.getElementById("input");
 const wannaEat = document.getElementById("wanna-eat");
-let tabIndex = 1;
 
 fetch("https://jsonplaceholder.typicode.com/users/1")
   .then((response) => response.json())
@@ -25,13 +25,12 @@ const loadData = () => {
     .then((response) => response.json())
     .then((data) => {
       //
+
       data.record.forEach((meal) => {
         let isFavorite = checkFavorite(meal.idMeal);
         if (isFavorite) console.log(meal);
         return Object.assign(meal, { isFavorited: isFavorite });
       });
-      console.log(data);
-
       const fuse = new Fuse(data.record, {
         keys: ["strMeal", "strArea", "strCategory"],
       });
@@ -42,9 +41,8 @@ const loadData = () => {
         row.innerHTML = "";
 
         // setting search text
-        let searchValue = input.value;
         wannaEat.innerHTML = `Do you wanna eat <span>${input.value}</span> ? 👌🤤`;
-        if (searchValue === "")
+        if (input.value === "")
           wannaEat.innerHTML = `Are you having trouble with making a decision ? 🤔`;
 
         const results = fuse.search(input.value);
@@ -60,13 +58,12 @@ const loadData = () => {
 };
 // deponce settings
 const debounce = (func, wait) => {
-  let timeout;
   return function executedFunction(...args) {
     const later = () => {
       timeout = null;
       func(...args);
     };
-    timeout = setTimeout(later, wait);
+    let timeout = setTimeout(later, wait);
   };
 };
 
@@ -121,87 +118,6 @@ const saveToLocalFavorited = (mealId) => {
   } else {
     updateFavorites([mealId]);
   }
-};
-
-const Card = ({
-  idMeal,
-  strMeal,
-  strMealThumb,
-  strYoutube,
-  strCategory,
-  strArea,
-}) => {
-  const foodCard = document.createElement("div");
-  const foodTitle = document.createElement("div");
-  const imageThumb = document.createElement("img");
-  const youtube = document.createElement("div");
-  const favoriteButton = document.createElement("i");
-  const BadgeParent = document.createElement("div");
-  const category = document.createElement("span");
-  const area = document.createElement("span");
-
-  //Card Container
-  foodCard.classList.add(
-    "food-card",
-    "col-lg-4",
-    "col-md-6",
-    "my-3",
-    "mx-auto"
-  );
-  foodCard.setAttribute("tabIndex", tabIndex);
-  tabIndex++;
-  foodCard.setAttribute("id", `card-${idMeal}`);
-  // Card image
-  imageThumb.classList.add("img-top");
-  imageThumb.src = strMealThumb;
-  // Card favorite button
-  favoriteButton.classList.add("fas", "fa-2x", "fa-heart", "mt-2");
-  favoriteButton.setAttribute("id", `fav-${idMeal}`);
-  // Card title
-  foodTitle.classList.add("title");
-  foodTitle.innerHTML = strMeal;
-  // badge parent
-  BadgeParent.classList.add("d-flex", "justify-content-between", "mb-3");
-  // category badge
-  category.classList.add("badge", "rounded-pill", "bg-success");
-  category.innerHTML = strCategory;
-  //are badge
-  area.classList.add("badge", "rounded-pill", "bg-dark");
-  area.innerHTML = strArea;
-  // Card youtube link
-  youtube.classList.add("more-btn");
-  youtube.innerHTML =
-    "<a href='" + strYoutube + "' target='_blank'>Watch The Video</a>";
-  // add to card containers
-  foodCard.appendChild(imageThumb);
-  foodCard.appendChild(favoriteButton);
-  foodCard.appendChild(foodTitle);
-  foodCard.appendChild(BadgeParent);
-  BadgeParent.appendChild(category);
-  BadgeParent.appendChild(area);
-  foodCard.appendChild(youtube);
-
-  // Click Events
-  foodCard.addEventListener("click", function () {
-    // Focus on the exact box
-    foodCard.focus();
-  });
-
-  // Key Events
-  foodCard.addEventListener("keyup", (event) => {
-    let clickedKey = event.key;
-    if (clickedKey === "f") {
-      favoriteButton.style.color = "#ff86b5";
-      saveToLocalFavorited(foodCard.id.substr(5));
-    }
-  });
-
-  favoriteButton.addEventListener("click", (event) => {
-    favoriteButton.style.color = "#ff86b5";
-    saveToLocalFavorited(foodCard.id.substr(5));
-  });
-
-  return foodCard;
 };
 
 loadData();
