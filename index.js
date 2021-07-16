@@ -3,6 +3,9 @@ import Fuse from "fuse.js";
 
 const loginInfo = document.getElementById("login-info");
 const row = document.getElementById("row");
+const input = document.getElementById("input");
+
+let tabIndex = 1;
 
 fetch("https://jsonplaceholder.typicode.com/users/1")
   .then((response) => response.json())
@@ -10,7 +13,7 @@ fetch("https://jsonplaceholder.typicode.com/users/1")
     loginInfo.innerHTML = `${json.username}`;
   });
 
-const loadData = () => {
+const loadData = (results) => {
   // adding spinner to before load data
   row.classList.add("spinner-border");
   fetch("https://api.jsonbin.io/v3/b/60ef40fdc1256a01cb6f37ad", {
@@ -21,13 +24,84 @@ const loadData = () => {
   })
     .then((response) => response.json())
     .then((data) => {
+      //
+      data.record.forEach((meal) => {
+        let isFavorite = checkFavorite(meal.idMeal);
+        if (isFavorite) console.log(meal);
+        return Object.assign(meal, { isFavorited: isFavorite });
+      });
+      console.log(data);
+
+      const fuse = new Fuse(data.record, {
+        keys: ["strMeal"],
+      });
+
       //removing spinner to after load data
+
       row.classList.remove("spinner-border");
-      console.log(data.record);
-      data.record.map((item) => {
-        row.appendChild(Card(item));
+
+      input.addEventListener("input", (event) => {
+        // deleted old values
+        row.innerHTML = "";
+        const results = fuse.search(input.value);
+        results.map(({ item }) => {
+          row.appendChild(Card(item));
+        });
       });
     });
+};
+
+const checkFavorite = (mealId) => {
+  let favoritedData = getLocalFavorites();
+
+  return favoritedData !== null && favoritedData.length !== 0
+    ? isFavorited(favoritedData, mealId)
+    : false;
+};
+
+const getLocalFavorites = () => {
+  let localFavoritedData = localStorage.getItem(LOCAL_FAVORITED_DB);
+  return localFavoritedData ? JSON.parse(localFavoritedData) : null;
+};
+
+const updateFavorites = (newFavoriteArray) => {
+  localStorage.setItem(LOCAL_FAVORITED_DB, JSON.stringify(newFavoriteArray));
+};
+
+const addFavoriteItem = (mealId) => {
+  updateFavorites([...getLocalFavorites(), mealId]);
+};
+
+const deleteFavoriteItem = (mealId, favoriteArray) => {
+  let newFavoriteArray = favoriteArray.filter((favorite) => {
+    favorite != mealId;
+  });
+  updateFavorites(newFavoriteArray);
+  // dom fav button uptade
+  document.getElementById("fav-" + mealId).style.color = "black";
+};
+
+const LOCAL_FAVORITED_DB = "favorite-meals";
+
+const isFavorited = (favoritedData, mealId) => {
+  favoritedData.findIndex((favorite) => {
+    return favorite === mealId;
+  }) !== -1
+    ? true
+    : false;
+};
+
+const saveToLocalFavorited = (mealId) => {
+  let favoritedData = getLocalFavorites();
+  console.log(favoritedData);
+  //favorited data var ise
+  if (favoritedData !== null) {
+    isFavorited(favoritedData, mealId)
+      ? deleteFavoriteItem(mealId, favoritedData)
+      : addFavoriteItem(mealId);
+  } else {
+    updateFavorites([mealId]);
+  }
 };
 
 const Card = ({ idMeal, strMeal, strMealThumb, strYoutube }) => {
@@ -35,6 +109,7 @@ const Card = ({ idMeal, strMeal, strMealThumb, strYoutube }) => {
   let foodTitle = document.createElement("div");
   let imageThumb = document.createElement("img");
   let youtube = document.createElement("div");
+  let favoriteButton = document.createElement("i");
 
   //Card Container
   foodCard.classList.add(
@@ -44,6 +119,8 @@ const Card = ({ idMeal, strMeal, strMealThumb, strYoutube }) => {
     "my-3",
     "mx-auto"
   );
+  foodCard.setAttribute("tabIndex", tabIndex);
+  tabIndex++;
   foodCard.setAttribute("id", `card-${idMeal}`);
   // Card title
   foodTitle.classList.add("title");
@@ -51,14 +128,40 @@ const Card = ({ idMeal, strMeal, strMealThumb, strYoutube }) => {
   // Card image
   imageThumb.classList.add("img-top");
   imageThumb.src = strMealThumb;
+  // Card favorite image
+  favoriteButton.classList.add("far", "fa-2x", "fa-heart", "mt-2");
+  favoriteButton.setAttribute("id", `fav-${idMeal}`);
   // Card youtube link
   youtube.classList.add("more-btn");
   youtube.innerHTML =
     "<a href='" + strYoutube + "' target='_blank'>Watch The Video</a>";
   // add to card containers
   foodCard.appendChild(imageThumb);
+  foodCard.appendChild(favoriteButton);
   foodCard.appendChild(foodTitle);
   foodCard.appendChild(youtube);
+
+  // Click Events
+  foodCard.addEventListener("click", function () {
+    // Focus on the exact box
+    foodCard.focus();
+    console.log("You've cliked to : ", this.id);
+  });
+
+  // Key Events
+  foodCard.addEventListener("keyup", (event) => {
+    console.log("You've pressed : ", event.key);
+  });
+  // When we click outside of a <div>
+  foodCard.addEventListener("focusout", (event) => {
+    console.log("You've focused out of : " + event.target.id);
+  });
+
+  favoriteButton.addEventListener("click", (event) => {
+    favoriteButton.style.color = "pink";
+    console.log(foodCard.id.substr(5));
+    saveToLocalFavorited(foodCard.id.substr(5));
+  });
 
   return foodCard;
 };

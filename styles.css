@@ -11,23 +11,103 @@
   box-sizing: border-box;
 }
 
-nav {
-  background-color: #ff86b5;
-  color: white;
+body {
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.welcome {
+  color: #ff86b5;
   font-weight: 600;
   padding-top: 10px;
 }
 
-nav p {
+.welcome p {
   padding-bottom: 10px;
   margin-left: 70px;
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   font-weight: 500;
 }
 
-nav p span {
-  font-size: 1.5rem;
+.welcome p span {
+  font-size: 2.2rem;
   font-weight: 700;
+}
+
+.form {
+  width: 50%;
+  position: relative;
+  height: 50px;
+  margin: 5px auto;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.form input {
+  width: 100%;
+  height: 100%;
+  color: #595f6e;
+  border: none !important;
+  outline: none;
+}
+
+.form input:focus + .label-name .content-name,
+.form input .form input:valid + .label-name .content-name {
+  -webkit-transform: translateY(-150%);
+          transform: translateY(-150%);
+  font-size: 13px;
+  color: #5fa8de;
+}
+
+.form label {
+  position: absolute;
+  bottom: 0px;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  font-size: 1.3rem;
+  pointer-events: none;
+  border-bottom: 1px solid black;
+}
+
+.form label::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  border-bottom: 3px solid #5fa8d3;
+  -webkit-transform: translateX(-100%);
+          transform: translateX(-100%);
+  -webkit-transition: -webkit-transform 0.3s ease;
+  transition: -webkit-transform 0.3s ease;
+  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, -webkit-transform 0.3s ease;
+}
+
+.form input:focus + .label-name::after,
+input:valid + .label-name::after {
+  -webkit-transform: translateX(0%);
+          transform: translateX(0%);
+}
+
+.form .content-name {
+  position: absolute;
+  bottom: 5px;
+  left: 0px;
+  -webkit-transition: all 0.3s ease !important;
+  transition: all 0.3s ease !important;
 }
 
 .food-card {
@@ -37,6 +117,10 @@ nav p span {
   box-shadow: 0px 0px 41px -12px rgba(0, 0, 0, 0.36);
   -webkit-box-shadow: 0px 0px 41px -12px rgba(0, 0, 0, 0.36);
   -moz-box-shadow: 0px 0px 41px -12px rgba(0, 0, 0, 0.36);
+}
+
+.food-card:focus {
+  border: 2px solid #6e6edf;
 }
 
 .food-card .img-top {
