@@ -61,6 +61,20 @@ body {
   outline: none;
 }
 
+.form input:focus + .label-name .content-name {
+  -webkit-transform: translateY(-140%);
+          transform: translateY(-140%);
+  font-size: 13px;
+  color: #8675a9;
+}
+
+.form input:valid + .label-name .content-name {
+  -webkit-transform: translateY(-140%);
+          transform: translateY(-140%);
+  font-size: 13px;
+  color: #8675a9;
+}
+
 .form label {
   position: absolute;
   bottom: 0px;
@@ -88,26 +102,18 @@ body {
   transition: transform 0.3s ease, -webkit-transform 0.3s ease;
 }
 
-.form input:focus + .label-name .content-name,
-.form input:valid + .label-name .content-name {
-  -webkit-transform: translateY(-140%);
-          transform: translateY(-140%);
-  font-size: 13px;
-  color: #8675a9;
-}
-
-.form input:focus + .label-name::after,
-input:valid + .label-name::after {
-  -webkit-transform: translateX(0%);
-          transform: translateX(0%);
-}
-
 .form .content-name {
   position: absolute;
   bottom: 5px;
   left: 0px;
   -webkit-transition: all 0.3s ease !important;
   transition: all 0.3s ease !important;
+}
+
+.form input:focus + .label-name::after,
+input:valid + .label-name::after {
+  -webkit-transform: translateX(0%);
+          transform: translateX(0%);
 }
 
 .food-card {
