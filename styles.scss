@@ -139,7 +139,10 @@ input:valid + .label-name::after {
     }
   }
 }
-
+i {
+  cursor: pointer;
+  transition: all 0.4s ease !important;
+}
 #wanna-eat {
   span {
     color: #ff86b5;
