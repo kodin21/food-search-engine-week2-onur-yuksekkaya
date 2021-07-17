@@ -72,13 +72,11 @@ const Card = ({
   foodCard.addEventListener("keyup", (event) => {
     let clickedKey = event.key;
     if (clickedKey === "f") {
-      favoriteButton.style.color = "#ff86b5";
       saveToLocalFavorited(foodCard.id.substr(5));
     }
   });
 
   favoriteButton.addEventListener("click", (event) => {
-    favoriteButton.style.color = "#ff86b5";
     saveToLocalFavorited(foodCard.id.substr(5));
   });
 

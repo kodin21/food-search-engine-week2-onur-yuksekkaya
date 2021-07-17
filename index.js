@@ -94,16 +94,17 @@ const updateFavorites = (newFavoriteArray) => {
 };
 
 const addFavoriteItem = (mealId) => {
+  document.getElementById("fav-" + mealId).style.color = "#ff86b5";
   updateFavorites([...getLocalFavorites(), mealId]);
 };
 
 const deleteFavoriteItem = (mealId, favoriteArray) => {
+  document.getElementById("fav-" + mealId).style.color = "black";
   let newFavoriteArray = favoriteArray.filter((favorite) => {
     favorite != mealId;
   });
   updateFavorites(newFavoriteArray);
   // dom fav button uptade
-  document.getElementById("fav-" + mealId).style.color = "black";
 };
 
 const LOCAL_FAVORITED_DB = "favorite-meals";
@@ -111,17 +112,18 @@ const LOCAL_FAVORITED_DB = "favorite-meals";
 const isFavorited = (favoritedData, mealId) => {
   favoritedData.findIndex((favorite) => {
     return favorite === mealId;
-  }) !== -1
+  }) > -1
     ? true
     : false;
 };
 
 export const saveToLocalFavorited = (mealId) => {
   let favoritedData = getLocalFavorites();
-  console.log(favoritedData);
   //favorited data var ise
   if (favoritedData !== null) {
-    isFavorited(favoritedData, mealId)
+    favoritedData.findIndex((favorite) => {
+      return favorite === mealId;
+    }) > -1
       ? deleteFavoriteItem(mealId, favoritedData)
       : addFavoriteItem(mealId);
   } else {
