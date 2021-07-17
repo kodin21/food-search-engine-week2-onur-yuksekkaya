@@ -10,7 +10,7 @@ const wannaEat = document.getElementById("wanna-eat");
 fetch("https://jsonplaceholder.typicode.com/users/1")
   .then((response) => response.json())
   .then((json) => {
-    loginInfo.innerHTML = `${json.username}`;
+    loginInfo.innerHTML = `${json.name}`;
   });
 
 const loadData = () => {
