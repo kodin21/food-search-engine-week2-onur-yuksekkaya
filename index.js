@@ -47,7 +47,7 @@ const loadData = () => {
         results.map(({ item }) => {
           row.appendChild(Card(item));
         });
-      }, 800);
+      }, 200);
 
       input.addEventListener("input", inputHandler);
 
