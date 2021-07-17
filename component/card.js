@@ -1,7 +1,10 @@
+import { saveToLocalFavorited } from "../index";
+
 let tabIndex = 1;
 
 const Card = ({
   idMeal,
+  isFavorited,
   strMeal,
   strMealThumb,
   strYoutube,
@@ -68,13 +71,13 @@ const Card = ({
   foodCard.addEventListener("keyup", (event) => {
     let clickedKey = event.key;
     if (clickedKey === "f") {
-      favoriteButton.style.color = "#ff86b5";
+      favoriteButton.style.color = isFavorited ? "#ff86b5" : "black";
       saveToLocalFavorited(foodCard.id.substr(5));
     }
   });
 
   favoriteButton.addEventListener("click", (event) => {
-    favoriteButton.style.color = "#ff86b5";
+    favoriteButton.style.color = isFavorited ? "#ff86b5" : "black";
     saveToLocalFavorited(foodCard.id.substr(5));
   });
 

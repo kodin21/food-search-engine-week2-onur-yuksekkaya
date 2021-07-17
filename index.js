@@ -70,8 +70,10 @@ const debounce = (func, wait) => {
 const checkFavorite = (mealId) => {
   let favoritedData = getLocalFavorites();
 
-  return favoritedData !== null && favoritedData.length !== 0
-    ? isFavorited(favoritedData, mealId)
+  return favoritedData
+    ? favoritedData.findIndex((favorite) => {
+        return favorite == mealId;
+      }) > -1
     : false;
 };
 
