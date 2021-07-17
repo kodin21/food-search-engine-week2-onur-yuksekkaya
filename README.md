@@ -1,3 +1,8 @@
+![ezgif-7-ffd23f3bc97d](https://user-images.githubusercontent.com/51006791/126041633-0a8e474a-1796-4d84-8c3d-38c993e39e82.gif)
+
+
+
+
 ### ODEV ONCESI
 Eğer bu repoyu kullanarak kendi bilgisayarinizda development yapmak isterseniz sirasiyla,
 1) Repoyu clonelayin
