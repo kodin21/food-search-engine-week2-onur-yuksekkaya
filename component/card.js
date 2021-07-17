@@ -37,6 +37,7 @@ const Card = ({
   // Card favorite button
   favoriteButton.classList.add("fas", "fa-2x", "fa-heart", "mt-2");
   favoriteButton.setAttribute("id", `fav-${idMeal}`);
+  favoriteButton.style.color = isFavorited ? "#ff86b5" : "black";
   // Card title
   foodTitle.classList.add("title");
   foodTitle.innerHTML = strMeal;
@@ -71,13 +72,13 @@ const Card = ({
   foodCard.addEventListener("keyup", (event) => {
     let clickedKey = event.key;
     if (clickedKey === "f") {
-      favoriteButton.style.color = isFavorited ? "#ff86b5" : "black";
+      favoriteButton.style.color = "#ff86b5";
       saveToLocalFavorited(foodCard.id.substr(5));
     }
   });
 
   favoriteButton.addEventListener("click", (event) => {
-    favoriteButton.style.color = isFavorited ? "#ff86b5" : "black";
+    favoriteButton.style.color = "#ff86b5";
     saveToLocalFavorited(foodCard.id.substr(5));
   });
 

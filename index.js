@@ -28,7 +28,6 @@ const loadData = () => {
 
       data.record.forEach((meal) => {
         let isFavorite = checkFavorite(meal.idMeal);
-        if (isFavorite) console.log(meal);
         return Object.assign(meal, { isFavorited: isFavorite });
       });
       const fuse = new Fuse(data.record, {
@@ -44,8 +43,8 @@ const loadData = () => {
         wannaEat.innerHTML = `Do you wanna eat <span>${input.value}</span> ? 👌🤤`;
         if (input.value === "")
           wannaEat.innerHTML = `Are you having trouble with making a decision ? 🤔`;
-
         const results = fuse.search(input.value);
+        console.log(results);
         results.map(({ item }) => {
           row.appendChild(Card(item));
         });
@@ -58,12 +57,20 @@ const loadData = () => {
 };
 // deponce settings
 const debounce = (func, wait) => {
+  let timeout;
   return function executedFunction(...args) {
+    // The callback function to be executed after
+    // the debounce time has elapsed
     const later = () => {
+      // null timeout to indicate the debounce ended
       timeout = null;
+
+      // Execute the callback
       func(...args);
     };
-    let timeout = setTimeout(later, wait);
+    clearTimeout(timeout);
+
+    timeout = setTimeout(later, wait);
   };
 };
 
