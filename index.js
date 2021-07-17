@@ -109,7 +109,7 @@ const isFavorited = (favoritedData, mealId) => {
     : false;
 };
 
-const saveToLocalFavorited = (mealId) => {
+export const saveToLocalFavorited = (mealId) => {
   let favoritedData = getLocalFavorites();
   console.log(favoritedData);
   //favorited data var ise
