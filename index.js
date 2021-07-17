@@ -44,7 +44,6 @@ const loadData = () => {
         if (input.value === "")
           wannaEat.innerHTML = `Are you having trouble with making a decision ? 🤔`;
         const results = fuse.search(input.value);
-        console.log(results);
         results.map(({ item }) => {
           row.appendChild(Card(item));
         });
@@ -101,7 +100,7 @@ const addFavoriteItem = (mealId) => {
 const deleteFavoriteItem = (mealId, favoriteArray) => {
   document.getElementById("fav-" + mealId).style.color = "black";
   let newFavoriteArray = favoriteArray.filter((favorite) => {
-    favorite != mealId;
+    return favorite != mealId;
   });
   updateFavorites(newFavoriteArray);
   // dom fav button uptade
